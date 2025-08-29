@@ -4,13 +4,16 @@ import "./styles/global.css";
 import { Container } from "./components/Container";
 import { Logo } from "./components/Logo";
 import { Menu } from "./components/Menu";
-import { CountDown } from "./components/Heading";
+import { CountDown } from "./components/CountDown";
+import { DefaultInput } from "./components/DefaultInput";
 
 export function App() {
   return (
     <>
       <Container>
         <Logo />
+      </Container>
+      <Container>
         <Menu />
       </Container>
       <Container>
@@ -20,8 +23,7 @@ export function App() {
       <Container>
         <form className="form" action="">
           <div>
-            <label htmlFor="meuInput">Task</label>
-            <input id="meuInput" type="text" />
+            <DefaultInput type="text" />
           </div>
 
           <div className="formRow">
