@@ -4,8 +4,13 @@ import { DefaultButton } from "../DefaultButton";
 import { DefaultInput } from "../DefaultInput";
 
 export function MainForm() {
+  function handleCreateNewTask(event: React.FormEvent) {
+    console.log("Criando nova tarefa...");
+    event.preventDefault();
+  }
+
   return (
-    <form className="form" action="">
+    <form onSubmit={handleCreateNewTask} className="form" action="">
       <div>
         <DefaultInput
           labelText="Task"
