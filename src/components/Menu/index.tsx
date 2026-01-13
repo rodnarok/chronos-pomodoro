@@ -6,7 +6,7 @@ import {
   SunIcon,
 } from "lucide-react";
 import styles from "./styles.module.css";
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 
 type AvailableThemes = "dark" | "light";
 
@@ -25,7 +25,7 @@ export function Menu() {
   function handleThemeChange(
     event: React.MouseEvent<HTMLAnchorElement, MouseEvent>
   ) {
-    event.preventDefault(); // Não segue o link
+    event.preventDefault();
 
     setTheme((prevTheme) => {
       const nextTheme = prevTheme === "dark" ? "light" : "dark";
@@ -39,40 +39,43 @@ export function Menu() {
   }, [theme]);
 
   return (
-    <div className={styles.menu}>
+    <nav className={styles.menu}>
       <a
         className={styles.menuLink}
-        href="/"
-        aria-label="Ir para Início"
-        title="Ir para Início"
+        href="#"
+        aria-label="Ir para a Home"
+        title="Ir para a Home"
       >
         <HouseIcon />
       </a>
+
       <a
         className={styles.menuLink}
-        href="/"
+        href="#"
         aria-label="Ver Histórico"
         title="Ver Histórico"
       >
         <HistoryIcon />
       </a>
+
       <a
         className={styles.menuLink}
-        href="/"
-        aria-label="Ir para Configurações"
-        title="Ir para Configurações"
+        href="#"
+        aria-label="Configurações"
+        title="Configurações"
       >
         <SettingsIcon />
       </a>
+
       <a
         className={styles.menuLink}
-        href="/"
-        aria-label="Mudar tema"
-        title="Mudar tema"
+        href="#"
+        aria-label="Mudar Tema"
+        title="Mudar Tema"
         onClick={handleThemeChange}
       >
         {nextThemeIcon[theme]}
       </a>
-    </div>
+    </nav>
   );
 }

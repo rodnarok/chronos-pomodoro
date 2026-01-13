@@ -7,6 +7,7 @@ import type { TaskModel } from "../../models/TaskModel";
 import { useTaskContext } from "../../contexts/TaskContext/useTaskContext";
 import { getNextCycle } from "../../utils/getNextCycle";
 import { getNextCycleType } from "../../utils/getNextCycleType";
+import { formatSecondsToMinutes } from "../../utils/formatSecondsToMinutes";
 
 export function MainForm() {
   const { state, setState } = useTaskContext();
@@ -14,18 +15,17 @@ export function MainForm() {
 
   // ciclos
   const nextCycle = getNextCycle(state.currentCycle);
-  const nextCycleType = getNextCycleType(nextCycle);
+  const nextCyleType = getNextCycleType(nextCycle);
 
-  function handleCreateNewTask(event: React.FormEvent) {
+  function handleCreateNewTask(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     if (taskNameInput.current === null) return;
 
     const taskName = taskNameInput.current.value.trim();
-    console.log("Creating new task:", taskName);
 
     if (!taskName) {
-      alert("Digite o nome da tarefa!");
+      alert("Digite o nome da tarefa");
       return;
     }
 
@@ -35,36 +35,39 @@ export function MainForm() {
       startDate: Date.now(),
       completeDate: null,
       interruptDate: null,
-      duration: state.config[nextCycleType] ,
-      type: nextCycleType,
+      duration: state.config[nextCyleType],
+      type: nextCyleType,
     };
 
     const secondsRemaining = newTask.duration * 60;
 
-    setState((prevState) => ({
-      ...prevState,
-      config: { ...prevState.config },
-      activeTask: newTask,
-      currentCycle: nextCycle,
-      secondsRemaining, // conferir
-      formattedSecondsRemaining: "00:00", // conferir
-      tasks: [...prevState.tasks, newTask],
-    }));
+    setState((prevState) => {
+      return {
+        ...prevState,
+        config: { ...prevState.config },
+        activeTask: newTask,
+        currentCycle: nextCycle,
+        secondsRemaining, // Conferir
+        formattedSecondsRemaining: formatSecondsToMinutes(secondsRemaining), // Conferir
+        tasks: [...prevState.tasks, newTask],
+      };
+    });
   }
 
   return (
     <form onSubmit={handleCreateNewTask} className="form" action="">
-      <div>
+      <div className="formRow">
         <DefaultInput
-          labelText="Task"
+          labelText="task"
           id="meuInput"
           type="text"
           placeholder="Digite algo"
+          ref={taskNameInput}
         />
       </div>
 
       <div className="formRow">
-        <p>Lorem ipsum dolor sit amet</p>
+        <p>Próximo intervalo é de 25min</p>
       </div>
 
       <div className="formRow">
@@ -72,7 +75,7 @@ export function MainForm() {
       </div>
 
       <div className="formRow">
-        <DefaultButton icon={<PlayCircleIcon color="green" />} type="submit" />
+        <DefaultButton icon={<PlayCircleIcon />} />
       </div>
     </form>
   );
